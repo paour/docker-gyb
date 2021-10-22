@@ -1,13 +1,8 @@
-FROM golang:alpine AS build
-RUN apk add --no-cache shellcheck
+FROM debian
+LABEL maintainer="Pierre-Luc Paour <docker@paour.com>"
 
-RUN mkdir /overlay
-COPY root/ /overlay/
-RUN find /overlay -type f | xargs shellcheck -e SC1008
-
-
-FROM oznu/s6-alpine:3.12
-LABEL maintainer="Jake Wharton <docker@jakewharton.com>"
+ADD https://github.com/just-containers/s6-overlay/releases/download/v2.2.0.1/s6-overlay-amd64-installer /tmp/
+RUN chmod +x /tmp/s6-overlay-amd64-installer && /tmp/s6-overlay-amd64-installer /
 
 ENV \
     # Fail if cont-init scripts exit with non-zero code.
@@ -18,12 +13,10 @@ ENV \
     PUID="" \
     PGID=""
 
-RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community > /etc/apk/repositories \
- && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
- && apk add --no-cache \
-      isync@edge \
-      curl@edge \
- && rm -rf /var/cache/* \
- && mkdir /var/cache/apk
+RUN apt-get update && apt-get install -y \
+    curl \
+    python
+
+RUN curl -s -S -L https://git.io/gyb-install -o /gyb-install && chmod +x /gyb-install && /gyb-install -l && rm /gyb-install
 
 COPY root/ /

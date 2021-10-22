@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/bin/sh
 
 echo "INFO: Starting sync.sh PID $$ $(date)"
 
@@ -8,7 +8,7 @@ fi
 
 set -e
 
-mbsync -V -a -c /config/mbsync.rc
+/root/bin/gyb/gyb
 
 echo "INFO: Completed sync.sh PID $$ $(date)"
 

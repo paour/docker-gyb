@@ -1,15 +1,17 @@
 Docker Mailbox Sync
 ===================
 
-A Docker container which runs the [`mbsync`][1] tool automatically to synchronize your email.
+Forked from [https://github.com/JakeWharton/docker-mbsync](Jake Wharton's) great mbsync docker container.
 
- [1]: http://isync.sourceforge.net/mbsync.html
+A Docker container which runs the [`gyb`][1] tool automatically to synchronize your email.
 
-[![Docker Image Version](https://img.shields.io/docker/v/jakewharton/mbsync?sort=semver)][hub]
-[![Docker Image Size](https://img.shields.io/docker/image-size/jakewharton/mbsync)][layers]
+ [1]: https://github.com/jay0lee/got-your-back
 
- [hub]: https://hub.docker.com/r/jakewharton/mbsync/
- [layers]: https://microbadger.com/images/jakewharton/mbsync
+[![Docker Image Version](https://img.shields.io/docker/v/paour/gyb?sort=semver)][hub]
+[![Docker Image Size](https://img.shields.io/docker/image-size/paour/gyb)][layers]
+
+ [hub]: https://hub.docker.com/r/paour/gyb/
+ [layers]: https://microbadger.com/images/paour/gyb
 
 
 Setup

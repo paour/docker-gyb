@@ -18,9 +18,9 @@ jobs:
     - name: Build and Publish
       uses: docker/build-push-action@v1
       with:
-        username: jakewharton
+        username: paour
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        repository: jakewharton/mbsync
+        repository: paour/gyb
         tag_with_ref: true
         add_git_labels: true
 
