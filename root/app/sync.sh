@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/with-contenv sh
 
 echo "INFO: Starting sync.sh PID $$ $(date)"
 
@@ -8,7 +8,7 @@ fi
 
 set -e
 
-/root/bin/gyb/gyb
+/root/bin/gyb/gyb --fast-incremental --email $EMAIL --local-folder /backup $CMD
 
 echo "INFO: Completed sync.sh PID $$ $(date)"
 

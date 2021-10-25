@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv sh
 
 # Log level 5 (and below) is noisy during periodic wakeup where nothing happens.
-/usr/sbin/crond -f -l 6
+# /usr/sbin/crond -f -l 6
+#service cron start

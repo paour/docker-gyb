@@ -7,15 +7,22 @@ Not running in cron mode
 	exit 0
 fi
 
+if [ -z "$EMAIL" ]; then
+	echo "
+ERROR: Define EMAIL address
+"
+	exit 0
+fi
+
 if [ ! -d /config ]; then
 	echo "
 ERROR: '/config' directory must be mounted
 "
 	exit 1
 fi
-if [ ! -f /config/mbsync.rc ]; then
+if [ ! -f /config/gmvault_defaults.conf ]; then
 	echo "
-ERROR: '/config/mbsync.rc' file must exist
+ERROR: '/config/gmvault_defaults.conf' file must exist
 "
 	exit 1
 fi
@@ -31,7 +38,9 @@ Initializing cron
 
 $CRON
 "
-crontab -u abc -d # Delete any existing crontab.
+# crontab -u abc -d # Delete any existing crontab.
 echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh" >/tmp/crontab.tmp
 crontab -u abc /tmp/crontab.tmp
 rm /tmp/crontab.tmp
+
+service cron start

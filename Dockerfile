@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:stable-slim
 LABEL maintainer="Pierre-Luc Paour <docker@paour.com>"
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v2.2.0.1/s6-overlay-amd64-installer /tmp/
@@ -11,12 +11,24 @@ ENV \
     HEALTHCHECK_ID="" \
     HEALTHCHECK_HOST="https://hc-ping.com" \
     PUID="" \
-    PGID=""
+    PGID="" \
+    EMAIL="" \
+    CMD=""
 
 RUN apt-get update && apt-get install -y \
     curl \
-    python
-
-RUN curl -s -S -L https://git.io/gyb-install -o /gyb-install && chmod +x /gyb-install && /gyb-install -l && rm /gyb-install
+    python \
+    cron
 
 COPY root/ /
+
+VOLUME ["/config", "/backup"]
+
+RUN curl -s -S -L https://git.io/gyb-install -o /gyb-install && \
+    chmod +x /gyb-install && \
+    /gyb-install -l && \
+    rm /gyb-install && \
+    ln -s /config /root/.gmvault && \
+    ln -s /config/client_secrets.json /root/bin/gyb/client_secrets.json
+
+ENTRYPOINT ["/init"]
