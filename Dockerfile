@@ -2,7 +2,8 @@ FROM debian:stable-slim
 LABEL maintainer="Pierre-Luc Paour <docker@paour.com>"
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v2.2.0.1/s6-overlay-amd64-installer /tmp/
-RUN chmod +x /tmp/s6-overlay-amd64-installer && /tmp/s6-overlay-amd64-installer /
+RUN chmod +x /tmp/s6-overlay-amd64-installer && \
+    /tmp/s6-overlay-amd64-installer /
 
 ENV \
     # Fail if cont-init scripts exit with non-zero code.
@@ -15,20 +16,23 @@ ENV \
     EMAIL="" \
     CMD=""
 
-RUN apt-get update && apt-get install -y \
-    curl \
-    python \
-    cron
+RUN apt-get update && \
+    apt-get install -y \
+			curl \
+			python \
+			cron \
+    && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY root/ /
 
 VOLUME ["/config", "/backup"]
 
-RUN curl -s -S -L https://git.io/gyb-install -o /gyb-install && \
-    chmod +x /gyb-install && \
-    /gyb-install -l && \
-    rm /gyb-install && \
+ADD https://git.io/gyb-install /tmp/
+RUN chmod +x /tmp/gyb-install && \
+    /tmp/gyb-install -l && \
     ln -s /config /root/.gmvault && \
-    ln -s /config/client_secrets.json /root/bin/gyb/client_secrets.json
+    ln -s /config/client_secrets.json /root/bin/gyb/client_secrets.json && \
+    rm -rf /tmp/*
 
 ENTRYPOINT ["/init"]
