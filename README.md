@@ -1,7 +1,7 @@
 Docker Mailbox Sync
 ===================
 
-Forked from [https://github.com/JakeWharton/docker-mbsync](Jake Wharton's) great mbsync docker container.
+Forked from [Jake Wharton's](https://github.com/JakeWharton/docker-mbsync) great mbsync docker container.
 
 A Docker container which runs the [`gyb`][1] tool automatically to synchronize your email.
 
