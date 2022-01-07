@@ -34,3 +34,5 @@ User gid: $(id -g abc)
 "
 
 chown abc:abc /app
+
+ln -s /config/* /root/bin/gyb/
