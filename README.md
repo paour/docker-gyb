@@ -25,40 +25,18 @@ Select and create two directories:
 
 ### Config
 
-In `/path/to/config`, create a file `mbsync.rc` for configuration.
-See the [`mbsync`][1] documentation for the syntax of this file.
+Use environment varibales to configure sync:
 
-The examples in this README mount the destination `/path/to/mail` directory as `/mail` inside of the container.
-If you are going to follow that, you should use `/mail` as the path in your configuration.
+- `CRON`: a cron time expression like `0 * * * *`
+- `EMAIL`: the email adress of the account to back up
+- `CMD`: `gyb` command arguments, like `--fast_incremental`
+- `HEALTHCHECK_ID` and `HEAKTHCHECK_HOST` (optional): to ping healthchecks.io
 
-Here is an example, minimal configuration for synchronizing everything in a mailbox:
-```
-IMAPAccount example
-Host imap.example.com
-User me@example.com
-Pass abc123
-AuthMechs LOGIN
-SSLType IMAPS
-PipelineDepth 50
+For multiple actions, provide `CRON_i`, `EMAIL_i`… where `i` is incremented for various values from 1 up to 20).
 
-IMAPStore example-remote
-Account example
+It's possible to provide a `oauth2service.json` file to use a service account (use the `--service-account` argument).
 
-MaildirStore example-local
-Path /mail/
-Inbox /mail/Inbox
-SubFolders Verbatim
-
-Channel example
-Master :example-remote:
-Slave :example-local:
-Patterns *
-Create Slave
-Expunge Slave
-SyncState *
-Sync Pull
-```
-
+Initial sync requires using docker exec described below.
 
 ### Initial Sync
 
@@ -71,7 +49,7 @@ This allows you to temporarily interrupt it at any point and also restart if it 
 $ docker run -it --rm
     -v /path/to/config:/config \
     -v /path/to/mail:/mail \
-    jakewharton/mbsync \
+    paour/gyb \
     /app/sync.sh
 ```
 
@@ -87,7 +65,7 @@ $ docker run -it --rm
     -v /path/to/config:/config \
     -v /path/to/mail:/mail \
     -e "CRON=0 * * * *" \
-    jakewharton/mbsync
+    paour/gyb
 ```
 
 The above version will run every hour and download any new emails. For help creating a valid cron specifier, visit [cron.help][2].
@@ -110,7 +88,7 @@ To write data as a particular user, the `PUID` and `PGID` environment variables 
 version: '2'
 services:
   mbsync:
-    image: jakewharton/mbsync:latest
+    image: paour/gyb:latest
     restart: unless-stopped
     volumes:
       - /path/to/config:/config
@@ -124,7 +102,7 @@ services:
 ```
 
 Note: You may want to specify an explicit version rather than `latest`.
-See https://hub.docker.com/r/jakewharton/mbsync/tags.
+See https://hub.docker.com/r/paour/gyb/tags.
 
 
 
@@ -133,4 +111,4 @@ LICENSE
 
 MIT. See `LICENSE.txt`.
 
-    Copyright 2020 Jake Wharton
+    Copyright 2022 Pierre-Luc Paour

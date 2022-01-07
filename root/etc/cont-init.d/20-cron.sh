@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv sh
+#!/usr/bin/with-contenv bash
 
 if [ -z "$CRON" ]; then
 	echo "
@@ -20,12 +20,6 @@ ERROR: '/config' directory must be mounted
 "
 	exit 1
 fi
-if [ ! -f /config/gmvault_defaults.conf ]; then
-	echo "
-ERROR: '/config/gmvault_defaults.conf' file must exist
-"
-	exit 1
-fi
 
 if [ -z "$HEALTHCHECK_ID" ]; then
 	echo "
@@ -39,7 +33,21 @@ Initializing cron
 $CRON
 "
 # crontab -u abc -d # Delete any existing crontab.
-echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh" >/tmp/crontab.tmp
+echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh" > /tmp/crontab.tmp
+
+for ((i = 1; i <= 20; i++)); do
+	EMAILI="EMAIL_$i"
+	CRONI="CRON_$i"
+	CMDI="CMD_$i"
+	HII="HEALTHCHECK_ID_$i"
+	HHI="HEALTHCHECK_HOST_$i"
+	if [ -n "${!EMAILI}" ]; then
+		echo "${!CRONI:-$CRON} /usr/bin/flock -n /app/sync.lock /app/sync.sh -e ${!EMAILI:-$EMAIL} -c \"${!CMDI:-$CMD}\" -i ${!HII:-$HEALTHCHECK_ID} -h ${!HHI:-$HEALTHCHECK_HOST}" >> /tmp/crontab.tmp
+	else
+		break
+	fi
+done
+
 crontab -u abc /tmp/crontab.tmp
 rm /tmp/crontab.tmp
 

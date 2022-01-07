@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+
+  gyb:
+    build: ./
+    volumes:
+      - "./config:/config"
+      - "./backup:/backup"
+    environment:
+      - HEALTHCHECK_ID=e02103e8-f1be-405d-b175-54340bcbdb98
+      - CRON=* * * * *

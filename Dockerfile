@@ -31,8 +31,8 @@ VOLUME ["/config", "/backup"]
 ADD https://git.io/gyb-install /tmp/
 RUN chmod +x /tmp/gyb-install && \
     /tmp/gyb-install -l && \
-    ln -s /config /root/.gmvault && \
     ln -s /config/client_secrets.json /root/bin/gyb/client_secrets.json && \
+    ln -s /config/oauth2service.json /root/bin/gyb/oauth2service.json && \
     rm -rf /tmp/*
 
 ENTRYPOINT ["/init"]
