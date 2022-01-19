@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
+exec 1> >(logger -s -t $(basename $0) -p user.info) 2>&1
+
 while getopts "e:h:i:c:" opt; do
   case "$opt" in
     e)  EMAIL=$OPTARG

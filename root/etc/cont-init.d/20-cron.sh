@@ -29,7 +29,7 @@ fi
 # Set up the cron schedule.
 echo -e "\nInitializing cron\n\n$CRON $EMAIL\n"
 # crontab -u abc -d # Delete any existing crontab.
-echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh > /proc/1/fd/1 2>/proc/1/fd/2" > /tmp/crontab.tmp
+echo "$CRON /usr/bin/flock -n /app/sync.lock /app/sync.sh" > /tmp/crontab.tmp
 
 for ((i = 1; i <= 20; i++)); do
 	EMAILI="EMAIL_$i"
@@ -39,7 +39,7 @@ for ((i = 1; i <= 20; i++)); do
 	HHI="HEALTHCHECK_HOST_$i"
 	if [ -n "${!EMAILI}" ]; then
 		echo "${!CRONI} ${!EMAILI}"
-		echo "${!CRONI:-$CRON} /usr/bin/flock -n /app/sync.lock /app/sync.sh -e ${!EMAILI:-$EMAIL} -c \"${!CMDI:-$CMD}\" -i ${!HII:-$HEALTHCHECK_ID} -h ${!HHI:-$HEALTHCHECK_HOST} > /proc/1/fd/1 2>/proc/1/fd/2" >> /tmp/crontab.tmp
+		echo "${!CRONI:-$CRON} /usr/bin/flock -n /app/sync.lock /app/sync.sh -e ${!EMAILI:-$EMAIL} -c \"${!CMDI:-$CMD}\" -i ${!HII:-$HEALTHCHECK_ID} -h ${!HHI:-$HEALTHCHECK_HOST}" >> /tmp/crontab.tmp
 	else
 		break
 	fi
