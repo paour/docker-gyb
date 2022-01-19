@@ -1,7 +1,5 @@
 #!/usr/bin/with-contenv sh
 
-exec 1> >(logger -s -t $(basename $0) -p user.info) 2>&1
-
 while getopts "e:h:i:c:" opt; do
   case "$opt" in
     e)  EMAIL=$OPTARG
@@ -31,7 +29,9 @@ fi
 
 set -e
 
-/root/bin/gyb/gyb --fast-incremental --email $EMAIL --local-folder /backup/$EMAIL $CMD
+umask 0000
+
+/app/gyb --fast-incremental --email $EMAIL --local-folder /backup/$EMAIL $CMD
 
 echo "INFO: Completed sync.sh PID $$ $(date)"
 

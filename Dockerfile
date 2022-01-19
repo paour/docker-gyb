@@ -35,6 +35,8 @@ VOLUME ["/config", "/backup"]
 ADD https://git.io/gyb-install /tmp/
 RUN chmod +x /tmp/gyb-install && \
     /tmp/gyb-install -l && \
-    rm -rf /tmp/*
+    mv /root/bin/gyb/gyb /app && \
+    rm -rf /tmp/* && \
+    rm -rf /root/bin/gyb
 
 ENTRYPOINT ["/init"]

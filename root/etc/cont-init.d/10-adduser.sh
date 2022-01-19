@@ -35,4 +35,7 @@ User gid: $(id -g abc)
 
 chown abc:abc /app
 
-ln -s /config/* /root/bin/gyb/
+ln -s /config/* /app/
+chmod -R go=u /config/
+
+rm /app/sync.lock
