@@ -48,4 +48,4 @@ done
 crontab -u abc /tmp/crontab.tmp
 rm /tmp/crontab.tmp
 
-service cron start
+# service cron start
