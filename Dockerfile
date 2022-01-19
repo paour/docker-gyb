@@ -7,8 +7,7 @@ RUN chmod +x /tmp/s6-overlay-amd64-installer && \
 
 # Install socklog-overlay
 ADD https://github.com/just-containers/socklog-overlay/releases/download/v3.1.2-0/socklog-overlay-amd64.tar.gz /tmp/
-RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C / && \
-    echo -e "+\n1" > /etc/socklog.rules/forward-stdout
+RUN tar xzf /tmp/socklog-overlay-amd64.tar.gz -C /
 
 ENV \
     # Fail if cont-init scripts exit with non-zero code.
