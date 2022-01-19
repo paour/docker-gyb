@@ -38,7 +38,7 @@ for ((i = 1; i <= 20; i++)); do
 	HII="HEALTHCHECK_ID_$i"
 	HHI="HEALTHCHECK_HOST_$i"
 	if [ -n "${!EMAILI}" ]; then
-		echo -e "\nInitializing cron\n\n{!CRONI} {!EMAILI}\n"
+		echo "${!CRONI} ${!EMAILI}"
 		echo "${!CRONI:-$CRON} /usr/bin/flock -n /app/sync.lock /app/sync.sh -e ${!EMAILI:-$EMAIL} -c \"${!CMDI:-$CMD}\" -i ${!HII:-$HEALTHCHECK_ID} -h ${!HHI:-$HEALTHCHECK_HOST} > /proc/1/fd/1 2>/proc/1/fd/2" >> /tmp/crontab.tmp
 	else
 		break
