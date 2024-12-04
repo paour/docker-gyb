@@ -38,4 +38,4 @@ chown abc:abc /app
 ln -s /config/* /app/
 chmod -R go=u /config/
 
-rm /app/sync.lock
+rm -f /app/sync.lock

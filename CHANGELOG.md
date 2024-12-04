@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.8.2]
+
+- Update to GYB 1.82
+
 ## [0.2.0]
 
 - Add logging, fix permission issues
